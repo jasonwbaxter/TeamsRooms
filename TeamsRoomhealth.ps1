@@ -5,6 +5,7 @@ try
 }
 catch {
     Write-Host "!****!!! Failed to Load Teams Beta PowerShell Module !****!!!" -ForegroundColor "Red"
+    Write-host "Run as administrator: Install-module Microsoft.Graph.Beta.Teams"
 }
 
 
