@@ -97,7 +97,7 @@ foreach($room in $allTeamsRoomDevices){
 
 
 Write-Host "Exporting Reports..."
-$Report | Export-CSV -NoTypeInformation $CSVOutputFile -Encoding UTF8
+$Report | Export-CSV -NoTypeInformation -Path $CSVOutputFile -Encoding UTF8
 Write-Host ""
 Write-Host "All done. Output files are in the chosen directory" $CSVOutputFile
    
