@@ -36,8 +36,23 @@ Connect-MgGraph -TenantId $tenantID -ClientSecretCredential $ClientSecretCredent
 [datetime]$RunDate = Get-Date
 [string]$ReportRunDate = Get-Date ($RunDate) -format 'dd-MMM-yyyy HH:mm'
 $Version = "0.1"
-$CSVOutputFile = "c:\temp\TeamsRooms\MicrosoftTeamsRoomsReport.CSV"
-$HtmlReportFile = "c:\temp\TeamsRooms\MicrosoftTeamsRoomsReport.html"
+$CSVOutputFile = "c:\temp\teamsrooms\MicrosoftTeamsRoomsReport.CSV"
+$HtmlReportFile = "c:\temp\teamsrooms\MicrosoftTeamsRoomsReport.html"
+
+
+$FolderPath = "c:\temp\teamsrooms"
+ 
+If (-not (Test-Path $FolderPath)) {
+    # Folder does not exist, create it
+    New-Item -Path $folderPath -ItemType Directory
+    Write-host "New Folder Created at '$FolderPath'!" -f Green
+}
+Else {
+    Write-host "Folder '$FolderPath' already exists!" -f Red
+}
+
+
+#Read more: https://www.sharepointdiary.com/2020/12/powershell-check-if-folder-exists.html#ixzz8bRbPPXA6
 
 Write-Host "Getting a List of  MTR Devices" -ForegroundColor "Yellow"
 
@@ -85,3 +100,13 @@ Write-Host "Exporting Reports..."
 $Report | Export-CSV -NoTypeInformation $CSVOutputFile -Encoding UTF8
 Write-Host ""
 Write-Host "All done. Output files are in the chosen directory" $CSVOutputFile
+   
+    $exit=Read-Host "Do you want to disconnect and exit? y/n"
+
+    if($exit -like "y"){
+        write-host "Disconnecting from the graph...." -ForegroundColor "Red"
+        Disconnect-Graph
+    }
+    elseif ($exit -like "n") {
+       Write-Host " Don't forget to run Disconnect-graph if you want to analyse another tenant." -ForegroundColor "orange"
+    }
