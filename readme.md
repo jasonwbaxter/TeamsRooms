@@ -20,6 +20,14 @@ cd c:\temp\teamsrooms
 
 Authenticate with your user and consent the graph permissions.
 
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+![alt text](image-4.png)
+
+![alt text](image-5.png)
 ### Disclaimer
 
 * This Sample Code is provided for the purpose of illustration only and is not intended to be used
