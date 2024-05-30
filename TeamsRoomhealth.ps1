@@ -105,7 +105,7 @@ Write-Host "Getting a List of  MTR Devices" -ForegroundColor "Yellow"
 
 # The possible values are DeviceType: 0 /unknown, 1/ipPhone, 2/teamsRoom, 3/surfaceHub,  4/collaborationBar, 5/teamsDisplay, 6/touchConsole, 7/lowCostPhone, 8/teamsPanel, 9/sip, 10/sipAnalog, 11/unknownFutureValue.
 
-$allTeamsRoomDevices = Get-MgBetaTeamworkDevice
+$allTeamsRoomDevices = Get-MgBetaTeamworkDevice -Filter deviceType ne "sip"
 if ($allTeamsRoomDevices.count -ge 1){
  $colour="green"
 }
@@ -119,18 +119,30 @@ foreach($room in $allTeamsRoomDevices){
 
    $roomdetails= Get-MgBetaTeamworkDeviceHealth -TeamworkDeviceId $room.Id
 
-    $ReportLine = [PSCustomObject][Ordered]@{  
-        RoomName                   = $room.currentUser.displayName
-        HealthStatus               = $room.HealthStatus
-        activityState              = $room.activityState
-        deviceType                 = $room.deviceType
-        TeamworkDeviceId           = $room.id
-        companyAssetTag            = $room.companyAssetTag
-        ConnectionStatus           = $roomdetails.connection.connectionstatus
-        loginStatus                = $roomdetails.loginStatus
-        peripheralsHealth          = $roomdetails.peripheralsHealth
-        softwareUpdateHealth       = $roomdetails.softwareUpdateHealth
-        hardwareHealth             = $roomdetails.hardwareHealth
+    $ReportLine = [PSCustomObject][Ordered]@{ 
+        TeamworkDeviceId                        = $room.id 
+        RoomName                                = $room.currentUser.displayName
+        HealthStatus                            = $room.HealthStatus
+        ActivityState                           = $room.ActivityState
+        deviceType                              = $room.deviceType
+        companyAssetTag                         = $room.companyAssetTag
+        RommConnectionStatus                    = $roomdetails.connection.connectionstatus
+        TeamsloginStatus                        = $roomdetails.loginStatus.TeamsConnection.ConnectionStatus
+        ExchangeloginStatus                     = $roomdetails.loginStatus.exchangeConnection.ConnectionStatus
+        CommunicationSpeakerHealth              = $roomdetails.peripheralsHealth.CommunicationSpeakerHealth.Connection.ConnectionStatus
+        ContentCameraHealth                     = $roomdetails.peripheralsHealth.ContentCameraHealth.Connection.ConnectionStatus
+        DisplayHealth                           = $roomdetails.peripheralsHealth.DisplayHealthCollection.Connection.ConnectionStatus
+        MicrophoneHealth                        = $roomdetails.peripheralsHealth.MicrophoneHealth.Connection.ConnectionStatus
+        RoomCameraHealth                        = $roomdetails.peripheralsHealth.RoomCameraHealth.Connection.ConnectionStatus
+        SpeakerHealth                           = $roomdetails.PeripheralsHealth.SpeakerHealth.Connection.ConnectionStatus
+        AdminAgentCurrentVersion                = $roomdetails.softwareUpdateHealth.AdminAgentSoftwareUpdateStatus.CurrentVersion
+        AdminAgentAvailableVersion              = $roomdetails.softwareUpdateHealth.AdminAgentSoftwareUpdateStatus.AvailableVersion
+        FirmwareSoftwareCurrentVersion          = $roomdetails.SoftwareUpdateHealth.FirmwareSoftwareUpdateStatus.CurrentVersion
+        FirmwareSoftwareAvailableVersion        = $roomdetails.SoftwareUpdateHealth.FirmwareSoftwareUpdateStatus.AvailableVersion
+        OperatingSystemSoftwareFreshness        = $roomdetails.SoftwareUpdateHealth.OperatingSystemSoftwareUpdateStatus.SoftwareFreshness
+        TeamsClientFreshness                    = $roomdetails.SoftwareUpdateHealth.TeamsClientSoftwareUpdateStatus.SoftwareFreshness
+        TeamsClientCurrentVersion               = $roomdetails.SoftwareUpdateHealth.TeamsClientSoftwareUpdateStatus.CurrentVersion
+        TeamsClientAvailableVersion             = $roomdetails.SoftwareUpdateHealth.TeamsClientSoftwareUpdateStatus.AvailableVersion
       }
 
     $Report.Add($ReportLine)
