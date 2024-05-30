@@ -105,7 +105,7 @@ Write-Host "Getting a List of  MTR Devices" -ForegroundColor "Yellow"
 
 # The possible values are DeviceType: 0 /unknown, 1/ipPhone, 2/teamsRoom, 3/surfaceHub,  4/collaborationBar, 5/teamsDisplay, 6/touchConsole, 7/lowCostPhone, 8/teamsPanel, 9/sip, 10/sipAnalog, 11/unknownFutureValue.
 
-$allTeamsRoomDevices = Get-MgBetaTeamworkDevice -Filter deviceType ne "sip"
+$allTeamsRoomDevices = Get-MgBetaTeamworkDevice -Filter "deviceType ne 'sip'"
 if ($allTeamsRoomDevices.count -ge 1){
  $colour="green"
 }
