@@ -126,7 +126,7 @@ foreach($room in $allTeamsRoomDevices){
         ActivityState                           = $room.ActivityState
         deviceType                              = $room.deviceType
         companyAssetTag                         = $room.companyAssetTag
-        RommConnectionStatus                    = $roomdetails.connection.connectionstatus
+        RoomConnectionStatus                    = $roomdetails.connection.connectionstatus
         TeamsloginStatus                        = $roomdetails.loginStatus.TeamsConnection.ConnectionStatus
         ExchangeloginStatus                     = $roomdetails.loginStatus.exchangeConnection.ConnectionStatus
         CommunicationSpeakerHealth              = $roomdetails.peripheralsHealth.CommunicationSpeakerHealth.Connection.ConnectionStatus
@@ -147,6 +147,7 @@ foreach($room in $allTeamsRoomDevices){
 
     $Report.Add($ReportLine)
  $i++
+ Write-host "Processed $i"
 }
 
 # Value Explanations
